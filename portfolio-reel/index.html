@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Avishek Portfolio Reel</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url(assets/fonts/inter-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: Inter; font-weight: 500; src: url(assets/fonts/inter-latin-500-normal.woff2) format("woff2"); }
+  @font-face { font-family: Inter; font-weight: 600; src: url(assets/fonts/inter-latin-600-normal.woff2) format("woff2"); }
+  @font-face { font-family: Inter; font-weight: 700; src: url(assets/fonts/inter-latin-700-normal.woff2) format("woff2"); }
+  @font-face { font-family: Inter; font-weight: 800; src: url(assets/fonts/inter-latin-800-normal.woff2) format("woff2"); }
+  @font-face { font-family: Inter; font-weight: 900; src: url(assets/fonts/inter-latin-900-normal.woff2) format("woff2"); }
+  @font-face { font-family: Caveat; font-weight: 700; src: url(assets/fonts/caveat-latin-700-normal.woff2) format("woff2"); }
+
+  :root {
+    --red: #e5383b;
+    --red-deep: #b5161d;
+    --red-dark: #8d1b1f;
+    --coral: #f25c62;
+    --blush: #fdf2f2;
+    --ink: #141414;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fff; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  .layer { position: absolute; inset: 0; }
+  .abs { position: absolute; }
+  .char, .word { display: inline-block; white-space: pre; }
+
+  /* ---------- Red world (intro + CTA) ---------- */
+  #world {
+    background:
+      radial-gradient(ellipse 62% 40% at 50% 54%, rgba(255,255,255,.95) 0%, rgba(255,240,240,.75) 30%, rgba(255,210,212,0) 68%),
+      linear-gradient(170deg, #ef4b53 0%, #f6858b 38%, #f9a7ab 55%, #f3777d 78%, #ea3f48 100%);
+  }
+  #worldGlow { background: radial-gradient(circle at 50% 54%, #fff 0%, rgba(255,255,255,0) 55%); opacity: 0; }
+  #glassTile {
+    left: 250px; top: 690px; width: 580px; height: 580px; border-radius: 80px;
+    background: linear-gradient(150deg, rgba(255,255,255,.55), rgba(255,255,255,.18));
+    border: 3px solid rgba(255,255,255,.75);
+    box-shadow: 0 40px 90px rgba(170,20,30,.22), inset 0 2px 0 rgba(255,255,255,.9), inset 0 -20px 50px rgba(255,255,255,.25);
+    backdrop-filter: blur(18px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  }
+  #hookA { font-size: 64px; font-weight: 600; color: #3a1215; letter-spacing: -0.02em; }
+  #hookB { position: relative; font-size: 84px; font-weight: 800; color: var(--red-deep); letter-spacing: -0.035em; }
+  #hookUnder { position: absolute; left: -10px; right: -10px; bottom: -34px; height: 40px; overflow: visible; }
+
+  #ctaHead { left: 0; right: 0; top: 820px; text-align: center; font-size: 78px; font-weight: 900; color: #2b0c0e; letter-spacing: -0.04em; }
+  #ctaHead .word:last-child { color: var(--red); }
+  #ctaPill {
+    left: 230px; top: 960px; width: 620px; height: 150px; border-radius: 75px;
+    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.82));
+    border: 3px solid rgba(255,255,255,.95);
+    box-shadow: 0 30px 70px rgba(170,20,30,.28), inset 0 -8px 20px rgba(240,120,125,.18);
+    display: flex; align-items: center; justify-content: center; gap: 26px;
+  }
+  #ctaPill .txt { font-size: 84px; font-weight: 900; letter-spacing: -0.03em; }
+  #ctaPill .dm { color: var(--red-deep); }
+  #ctaPill .now { color: var(--coral); }
+  #ctaSub { left: 0; right: 0; top: 1160px; text-align: center; font-size: 30px; font-weight: 600; letter-spacing: .32em; color: var(--red-deep); }
+
+  /* ---------- Identity scene ---------- */
+  #ident { background: var(--blush); }
+  #identPattern { opacity: .55; }
+  .blob { border-radius: 50%; filter: blur(30px); background: rgba(246,165,170,.35); }
+  #stage { transform-origin: 540px 900px; }
+  #badgeTop {
+    left: 50%; top: 270px; transform: translateX(-50%);
+    background: #fff; border-radius: 60px; padding: 20px 38px 20px 30px;
+    display: flex; align-items: center; gap: 16px; white-space: nowrap;
+    box-shadow: 0 14px 40px rgba(190,40,50,.14), 0 2px 6px rgba(0,0,0,.05);
+    font-size: 32px; font-weight: 500; color: #2a2a2a;
+  }
+  #badgeTop .dot { width: 20px; height: 20px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 6px rgba(229,56,59,.15); }
+  #portraitWrap { left: 180px; top: 430px; width: 720px; height: 720px; }
+  #disk {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: radial-gradient(circle at 38% 30%, #f0575c 0%, #d8282f 45%, #a8141b 100%);
+    box-shadow: 0 50px 90px rgba(180,20,30,.28), inset 0 -30px 60px rgba(90,0,5,.25);
+  }
+  #portrait { position: absolute; width: 725px; left: -2px; top: 16px; }
+  #headline { left: 0; right: 0; top: 1205px; text-align: center; font-size: 100px; font-weight: 900; letter-spacing: -0.045em; white-space: nowrap; }
+  #headline .accent { background: linear-gradient(90deg, var(--red) 0%, var(--coral) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #role { left: 0; right: 0; top: 1345px; text-align: center; font-size: 31px; font-weight: 600; letter-spacing: .14em; color: #383838; white-space: nowrap; }
+  #role .bar { color: var(--red); }
+  #seeWork {
+    left: 50%; top: 1450px; transform: translateX(-50%);
+    background: linear-gradient(180deg, #ea3c42, #c81e25); color: #fff;
+    border-radius: 60px; padding: 18px 20px 18px 40px; display: flex; align-items: center; gap: 22px; white-space: nowrap;
+    font-size: 32px; font-weight: 700; box-shadow: 0 18px 40px rgba(200,30,40,.32);
+  }
+  #seeWork .arr { width: 54px; height: 54px; border-radius: 50%; background: #fff; display: grid; place-items: center; }
+  #ripple { left: 540px; top: 1490px; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 4px solid rgba(229,56,59,.7); opacity: 0; }
+  #expCard {
+    left: 735px; top: 455px; width: 220px; padding: 22px 20px 20px; border-radius: 30px;
+    background: linear-gradient(160deg, #ef4148, #c4141c); color: #fff; text-align: center;
+    box-shadow: 0 24px 50px rgba(180,20,30,.38), inset 0 2px 0 rgba(255,255,255,.3);
+  }
+  #expCard .num { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 76px; font-weight: 900; line-height: 1; letter-spacing: -0.04em; }
+  #expCard .lbl { margin-top: 10px; font-size: 17px; font-weight: 700; letter-spacing: .1em; line-height: 1.3; }
+  #premChip {
+    left: 95px; top: 1060px; padding: 18px 34px 18px 24px; border-radius: 50px;
+    background: linear-gradient(180deg, #a3161d, #7a0d12); color: #fff; white-space: nowrap;
+    display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 600;
+    box-shadow: 0 18px 40px rgba(120,10,15,.35);
+  }
+  #cursor { left: 0; top: 0; width: 64px; height: 64px; }
+
+  /* ---------- Whip ---------- */
+  #sweep { background: #fff; }
+  #arrow { overflow: visible; }
+
+  /* ---------- Work ---------- */
+  #work { background: #fff; }
+  #workLabel { left: 0; right: 0; top: 330px; text-align: center; font-size: 26px; font-weight: 700; letter-spacing: .34em; color: #c9a3a5; }
+  .heading { left: 0; right: 0; top: 380px; text-align: center; font-size: 92px; font-weight: 800; letter-spacing: -0.04em; white-space: nowrap; }
+  .heading .lead { color: var(--red-dark); }
+  .heading .acc { color: var(--red); position: relative; display: inline-block; }
+  .heading svg { position: absolute; left: -12px; right: -12px; width: calc(100% + 24px); bottom: -30px; height: 36px; overflow: visible; }
+  #strip { left: 0; top: 640px; height: 760px; }
+  .card {
+    position: absolute; top: 0; width: 396px; height: 704px; border-radius: 44px; overflow: hidden;
+    box-shadow: 0 30px 60px rgba(60,10,15,.18), 0 4px 10px rgba(0,0,0,.06);
+    background: #222;
+  }
+  .card .inner { position: absolute; inset: -8%; }
+  .card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .card .tag { position: absolute; left: 26px; top: 26px; padding: 8px 16px; border-radius: 20px; background: rgba(0,0,0,.35); color: #fff; font-size: 18px; font-weight: 700; letter-spacing: .14em; backdrop-filter: blur(6px); }
+  .card .play { position: absolute; left: 50%; top: 50%; width: 112px; height: 112px; margin: -56px 0 0 -56px; border-radius: 50%; background: rgba(255,255,255,.28); border: 2px solid rgba(255,255,255,.7); backdrop-filter: blur(8px); display: grid; place-items: center; }
+  .card .cap { position: absolute; left: 0; right: 0; bottom: 120px; text-align: center; font-family: Caveat, cursive; font-size: 64px; color: #ffe14d; text-shadow: 0 3px 0 rgba(0,0,0,.35); transform: rotate(-4deg); }
+  .card .cap2 { position: absolute; left: 0; right: 0; bottom: 78px; text-align: center; font-size: 26px; font-weight: 800; color: #fff; letter-spacing: .02em; text-shadow: 0 2px 8px rgba(0,0,0,.5); }
+  .card .bar { position: absolute; left: 0; right: 0; height: 13%; background: #000; }
+  #flash { background: #fff; opacity: 0; }
+</style>
+</head>
+<body>
+<div id="root">
+
+  <!-- RED WORLD -->
+  <div id="world" class="layer">
+    <div id="worldGlow" class="layer"></div>
+    <svg class="layer" viewBox="0 0 1080 1920" width="1080" height="1920">
+      <defs>
+        <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffffff" />
+          <stop offset=".5" stop-color="#ffe3e4" />
+          <stop offset="1" stop-color="#ffffff" stop-opacity=".7" />
+        </linearGradient>
+        <radialGradient id="starGrad" cx=".35" cy=".35" r=".8">
+          <stop offset="0" stop-color="#ff7b80" />
+          <stop offset=".6" stop-color="#e3242c" />
+          <stop offset="1" stop-color="#b0101a" />
+        </radialGradient>
+        <path id="star" d="M0,-46 C6,-10 10,-6 46,0 C10,6 6,10 0,46 C-6,10 -10,6 -46,0 C-10,-6 -6,-10 0,-46Z" />
+      </defs>
+      <g id="ringTR">
+        <circle cx="1010" cy="-60" r="470" fill="none" stroke="url(#ringGrad)" stroke-width="7" />
+        <use href="#star" fill="url(#starGrad)" transform="translate(560,-10) rotate(12)" />
+        <use href="#star" fill="url(#starGrad)" transform="translate(905,397) rotate(-8) scale(.8)" />
+      </g>
+      <g id="ringBL">
+        <circle cx="40" cy="1990" r="520" fill="none" stroke="url(#ringGrad)" stroke-width="7" />
+        <use href="#star" fill="url(#starGrad)" transform="translate(470,1730) rotate(10) scale(1.1)" />
+        <use href="#star" fill="url(#starGrad)" transform="translate(-60,1480) rotate(-14) scale(.75)" />
+      </g>
+    </svg>
+    <div id="glassTile" class="abs">
+      <div id="hookA"></div>
+      <div id="hookB"><span id="hookBText"></span>
+        <svg id="hookUnder" viewBox="0 0 400 40" preserveAspectRatio="none"><path class="draw" d="M8,26 C90,10 220,8 392,20" fill="none" stroke="#e5383b" stroke-width="7" stroke-linecap="round" /></svg>
+      </div>
+    </div>
+    <div id="ctaHead" class="abs"></div>
+    <div id="ctaPill" class="abs">
+      <svg width="78" height="78" viewBox="0 0 78 78"><path d="M8,14 L70,14 L39,68 Z" fill="#e5383b" stroke="#e5383b" stroke-width="8" stroke-linejoin="round" /></svg>
+      <div class="txt"><span class="dm"></span> <span class="now"></span></div>
+    </div>
+    <div id="ctaSub" class="abs"></div>
+  </div>
+
+  <!-- IDENTITY -->
+  <div id="ident" class="layer">
+    <svg id="identPattern" class="layer" width="1080" height="1920">
+      <defs>
+        <pattern id="xpat" width="72" height="72" patternUnits="userSpaceOnUse">
+          <path d="M30,30 L42,42 M42,30 L30,42" stroke="#e7a3a6" stroke-width="2" stroke-linecap="round" />
+        </pattern>
+      </defs>
+      <rect width="1080" height="1920" fill="url(#xpat)" />
+    </svg>
+    <div id="blob1" class="abs blob" style="left:-260px;top:180px;width:760px;height:520px;transform:rotate(-24deg)"></div>
+    <div id="blob2" class="abs blob" style="left:560px;top:1250px;width:720px;height:560px;transform:rotate(18deg)"></div>
+    <div id="blob3" class="abs blob" style="left:620px;top:-120px;width:520px;height:380px;transform:rotate(30deg);background:rgba(246,165,170,.25)"></div>
+
+    <div id="stage" class="layer">
+      <div id="badgeTop" class="abs"><span class="dot"></span><span id="badgeText"></span></div>
+      <div id="portraitWrap" class="abs">
+        <div id="portraitFloat" class="layer">
+          <div id="disk"></div>
+          <img id="portrait" src="assets/portrait.png" alt="" />
+        </div>
+      </div>
+      <div id="expCard" class="abs">
+        <div class="num">
+          <svg width="56" height="56" viewBox="0 0 24 24"><path fill="#fff" d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V17h3v2H8v-2h3v-2.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3V3zm0 4H6v1a2 2 0 0 0 1 1.7V7zm10 0v2.7A2 2 0 0 0 18 8V7h-1z"/></svg>
+          <span id="expNum"></span>
+        </div>
+        <div class="lbl" id="expLbl"></div>
+      </div>
+      <div id="premChip" class="abs">
+        <svg width="38" height="38" viewBox="0 0 24 24"><path fill="#fff" d="M12 1.5l2.2 6.3 6.3 2.2-6.3 2.2L12 18.5l-2.2-6.3L3.5 10l6.3-2.2zM19 15l1 2.9 3 1.1-3 1.1-1 2.9-1-2.9-3-1.1 3-1.1z"/></svg>
+        <span id="premText"></span>
+      </div>
+      <div id="headline" class="abs"></div>
+      <div id="role" class="abs"></div>
+      <div id="seeWork" class="abs"><span id="seeText"></span>
+        <span class="arr"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="#d62828" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </div>
+      <div id="ripple" class="abs"></div>
+    </div>
+    <svg id="cursor" class="abs" viewBox="0 0 32 32"><path d="M6 3 L6 25 L11.5 20 L15.5 29 L19 27.4 L15 18.6 L22.5 18.4 Z" fill="#111" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+  </div>
+
+  <!-- WHIP -->
+  <div id="sweep" class="layer"></div>
+  <svg id="arrow" class="layer" viewBox="0 0 1080 1920" width="1080" height="1920">
+    <path id="arrowPath" d="M110,1010 C300,880 560,880 760,950 C820,972 870,990 930,1000" fill="none" stroke="#e5383b" stroke-width="11" stroke-linecap="round" />
+    <path id="arrowHead" d="M880,950 L938,1001 L868,1036" fill="none" stroke="#e5383b" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+
+  <!-- WORK -->
+  <div id="work" class="layer">
+    <div id="workLabel" class="abs"></div>
+    <div id="headings"></div>
+    <div id="strip" class="abs"></div>
+  </div>
+
+  <div id="flash" class="layer"></div>
+</div>
+
+<script>
+/* =======================================================================
+   EDIT HERE — all text and portfolio clips.
+   To use real footage, put vertical clips in assets/clips/ and list them
+   under each category, e.g. clips: ["assets/clips/talking-1.webm"].
+   Empty clips → designed placeholder cards (4 per category).
+   ======================================================================= */
+const CONFIG = {
+  hook: { lead: "Looking For", accent: "Video Editor" },
+  badge: "Creative collabs welcome",
+  hello: "Hello,",
+  name: "I'm Avishek",
+  role: ["VIDEO EDITOR", "MOTION DESIGNER"],
+  exp: { num: "2+", label: "YEARS OF\nEXPERIENCE" },
+  service: "Premium-quality edits",
+  seeWork: "See My Work",
+  categories: [
+    { lead: "Talking", accent: "Head",    theme: "studio",   clips: [] },
+    { lead: "Event",   accent: "Video",   theme: "event",    clips: [] },
+    { lead: "Festival", accent: "Reels",  theme: "festival", clips: [] },
+    { lead: "Cinematic", accent: "Reels", theme: "cinematic", clips: [] },
+  ],
+  cta: { head: "Level Up Your Content", dm: "DM", now: "NOW", sub: "LET'S CREATE TOGETHER" },
+};
+
+/* ------------------------- timing (seconds) ------------------------- */
+const T = {
+  bloom: 1.25,
+  ident: 1.55,
+  punch: 4.2,
+  prem: 5.3,
+  pull: 6.3,
+  click: 7.45,
+  whip: 7.95,
+  work: 8.7,
+  perCat: 3.8,
+};
+T.scatter = T.work + T.perCat * CONFIG.categories.length;   // 23.9
+T.cta = T.scatter + 0.55;
+T.end = T.cta + 4.1;
+window.__duration = T.end;
+
+const $ = (s) => document.querySelector(s);
+const splitChars = (el, text) => {
+  el.textContent = "";
+  return [...text].map((c) => { const s = document.createElement("span"); s.className = "char"; s.textContent = c; el.appendChild(s); return s; });
+};
+const splitWords = (el, text, cls) => text.split(" ").map((w, i, a) => {
+  const s = document.createElement("span"); s.className = "word" + (cls ? " " + cls : ""); s.textContent = w + (i < a.length - 1 ? " " : ""); el.appendChild(s); return s;
+});
+const drawPrep = (path) => { const L = path.getTotalLength(); path.style.strokeDasharray = L; path.style.strokeDashoffset = L; return L; };
+
+/* ------------------------- build text ------------------------- */
+const hookA = splitWords($("#hookA"), CONFIG.hook.lead);
+const hookB = splitWords($("#hookBText"), CONFIG.hook.accent);
+$("#badgeText").textContent = CONFIG.badge;
+const hlWords = [...splitWords($("#headline"), CONFIG.hello + " "), ...splitWords($("#headline"), CONFIG.name, "accent")];
+const roleEl = $("#role");
+const roleChars = [];
+CONFIG.role.forEach((r, i) => {
+  if (i) { const b = document.createElement("span"); b.className = "bar"; roleEl.appendChild(b); roleChars.push(...splitChars(b, "  |  ")); }
+  const s = document.createElement("span"); roleEl.appendChild(s); roleChars.push(...splitChars(s, r));
+});
+$("#expNum").textContent = CONFIG.exp.num;
+$("#expLbl").innerHTML = CONFIG.exp.label.replace("\n", "<br>");
+$("#premText").textContent = CONFIG.service;
+$("#seeText").textContent = CONFIG.seeWork;
+const ctaWords = splitWords($("#ctaHead"), CONFIG.cta.head);
+$("#ctaPill .dm").textContent = CONFIG.cta.dm;
+$("#ctaPill .now").textContent = CONFIG.cta.now;
+$("#ctaSub").textContent = CONFIG.cta.sub;
+
+/* ------------------------- placeholder card art ------------------------- */
+const THEMES = {
+  studio: (i) => `
+    <div class="inner" style="background:
+      radial-gradient(ellipse 60% 40% at ${30 + i * 12}% 18%, rgba(255,236,200,.75), transparent 70%),
+      linear-gradient(180deg,#d8b893 0%,#b88a62 55%,#6e4b33 100%)"></div>
+    <svg class="layer" viewBox="0 0 396 704"><ellipse cx="198" cy="300" rx="70" ry="86" fill="rgba(40,22,14,.55)"/><path d="M60,704 C70,520 130,440 198,430 C266,440 326,520 336,704Z" fill="rgba(40,22,14,.6)"/></svg>
+    <div class="cap">${["directly", "hook them", "real talk", "stay tuned"][i % 4]}</div>
+    <div class="cap2">${["THEY DON'T WAIT.", "SAY IT BETTER", "TELL YOUR STORY", "KEEP WATCHING"][i % 4]}</div>`,
+  event: (i) => `
+    <div class="inner" style="background:
+      radial-gradient(circle at 20% 30%, rgba(255,90,140,.55) 0 7%, transparent 8%),
+      radial-gradient(circle at 70% 22%, rgba(90,170,255,.5) 0 10%, transparent 11%),
+      radial-gradient(circle at 80% 60%, rgba(255,200,80,.5) 0 6%, transparent 7%),
+      radial-gradient(circle at 35% 70%, rgba(160,110,255,.5) 0 9%, transparent 10%),
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255,80,60,.55), transparent 70%),
+      linear-gradient(180deg,#140d2a 0%,#2a1240 60%,#3b0f1f 100%); filter: blur(${i % 2 ? 2 : 1}px)"></div>
+    <svg class="layer" viewBox="0 0 396 704"><path d="M0,704 L0,610 C40,590 60,560 90,600 C110,560 140,560 160,600 C190,550 220,560 240,600 C270,560 300,570 320,600 C350,570 380,580 396,600 L396,704Z" fill="rgba(5,3,12,.85)"/></svg>
+    <div class="cap2" style="bottom:300px;font-size:44px;letter-spacing:.08em">${["LIVE", "AFTERMOVIE", "HIGHLIGHTS", "RECAP"][i % 4]}</div>`,
+  festival: (i) => `
+    <div class="inner" style="background:
+      radial-gradient(circle at 25% 25%, #ffcf3f 0 4%, transparent 5%),
+      radial-gradient(circle at 75% 35%, #ff9f1c 0 5%, transparent 6%),
+      radial-gradient(circle at 55% 15%, #ffd166 0 3%, transparent 4%),
+      radial-gradient(circle at 40% 60%, #ffb703 0 3.5%, transparent 4.5%),
+      linear-gradient(${160 + i * 15}deg,#ff4d6d 0%,#c9184a 40%,#ff7b00 100%)"></div>
+    <svg class="layer" viewBox="0 0 396 704" opacity=".9"><path d="M0,0 Q198,120 396,0" fill="none" stroke="#ffd166" stroke-width="6" stroke-dasharray="2 22" stroke-linecap="round"/><path d="M0,60 Q198,190 396,60" fill="none" stroke="#fff3b0" stroke-width="6" stroke-dasharray="2 22" stroke-linecap="round"/></svg>
+    <div class="cap" style="color:#fff">${["festive vibes", "celebrate", "colours", "together"][i % 4]}</div>`,
+  cinematic: (i) => `
+    <div class="inner" style="background:
+      radial-gradient(ellipse 70% 30% at 50% ${55 + i * 3}%, rgba(255,170,90,.75), transparent 70%),
+      linear-gradient(180deg,#0e2f3a 0%,#1b4d57 45%,#d9824a 75%,#2b1a12 100%)"></div>
+    <div class="bar" style="top:0"></div><div class="bar" style="bottom:0"></div>
+    <div class="cap2" style="bottom:auto;top:46%;font-size:30px;letter-spacing:.4em;font-weight:600">${["CHAPTER I", "GOLDEN HOUR", "THE JOURNEY", "FADE IN"][i % 4]}</div>`,
+};
+const PLAY = `<div class="play"><svg width="44" height="44" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></div>`;
+
+/* ------------------------- build carousel ------------------------- */
+const CARD_W = 396, GAP = 30, PITCH = CARD_W + GAP;
+const strip = $("#strip");
+const cards = [];          // {el, cat, idx, video?}
+CONFIG.categories.forEach((cat, ci) => {
+  const n = Math.max(4, cat.clips.length);
+  for (let i = 0; i < n; i++) cards.push({ cat: ci, i, src: cat.clips.length ? cat.clips[i % cat.clips.length] : null });
+});
+// two trailing cards so the frame stays full during the last category
+const last = CONFIG.categories.length - 1;
+cards.push({ cat: last, i: 4, src: CONFIG.categories[last].clips[0] || null }, { cat: last, i: 5, src: CONFIG.categories[last].clips[1] || CONFIG.categories[last].clips[0] || null });
+const catFirst = [];
+cards.forEach((c, k) => {
+  if (catFirst[c.cat] === undefined) catFirst[c.cat] = k;
+  const el = document.createElement("div");
+  el.className = "card";
+  el.style.left = k * PITCH + "px";
+  if (c.src) {
+    const v = document.createElement("video");
+    v.src = c.src; v.muted = true; v.preload = "auto"; v.playsInline = true;
+    el.appendChild(v); c.video = v;
+  } else {
+    el.innerHTML = THEMES[CONFIG.categories[c.cat].theme](c.i) + PLAY;
+  }
+  if (!c.src) { const tag = document.createElement("div"); tag.className = "tag"; tag.textContent = "CLIP " + String(c.i + 1).padStart(2, "0"); el.appendChild(tag); }
+  strip.appendChild(el); c.el = el;
+});
+const catStartTime = (ci) => T.work + 0.4 + T.perCat * ci;
+
+/* ------------------------- headings ------------------------- */
+const headingsEl = $("#headings");
+const headings = CONFIG.categories.map((cat) => {
+  const h = document.createElement("div"); h.className = "abs heading";
+  const lead = document.createElement("span"); lead.className = "lead";
+  const acc = document.createElement("span"); acc.className = "acc";
+  h.appendChild(lead); h.appendChild(document.createTextNode(" ")); h.appendChild(acc);
+  const chars = [...splitChars(lead, cat.lead)];
+  const accChars = splitChars(acc, cat.accent);
+  acc.insertAdjacentHTML("beforeend", `<svg viewBox="0 0 300 36" preserveAspectRatio="none"><path class="draw" d="M6,24 C70,8 170,6 294,18" fill="none" stroke="#e5383b" stroke-width="7" stroke-linecap="round"/></svg>`);
+  headingsEl.appendChild(h);
+  return { el: h, chars: [...chars, ...accChars], under: acc.querySelector("path") };
+});
+
+/* ======================= TIMELINE ======================= */
+const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+const D = T.end;
+
+/* ---- ambient: rings orbit the whole time ---- */
+tl.fromTo("#ringTR", { rotation: -6 }, { rotation: 14, svgOrigin: "1010 -60", duration: D, ease: "none" }, 0);
+tl.fromTo("#ringBL", { rotation: 8 }, { rotation: -12, svgOrigin: "40 1990", duration: D, ease: "none" }, 0);
+tl.fromTo("#worldGlow", { opacity: 0, scale: .8 }, { opacity: .9, scale: 1.1, duration: 1.3, ease: "sine.inOut" }, 0);
+
+/* ---- 1. hook ---- */
+tl.fromTo("#glassTile", { scale: .82, opacity: 0, y: 40 }, { scale: 1, opacity: 1, y: 0, duration: .5, ease: "back.out(1.6)" }, 0.05);
+tl.fromTo(hookA, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: .35, stagger: .22 }, 0.2);
+tl.fromTo(hookB, { y: 60, opacity: 0, scale: .9 }, { y: 0, opacity: 1, scale: 1, duration: .4, stagger: .14, ease: "back.out(2)" }, 0.68);
+drawPrep($("#hookUnder path"));
+tl.to("#hookUnder path", { strokeDashoffset: 0, duration: .35, ease: "power2.inOut" }, 0.95);
+tl.to("#glassTile", { scale: 1.06, duration: .5, ease: "sine.inOut" }, 0.75);
+
+/* ---- bloom transition ---- */
+const bloom = document.createElement("div");
+bloom.id = "bloom";
+Object.assign(bloom.style, { position: "absolute", left: "60px", top: "1500px", width: "440px", height: "440px", marginLeft: "-220px", marginTop: "-220px", borderRadius: "50%", background: "radial-gradient(circle, #fff 0%, #fff 55%, rgba(255,255,255,0) 72%)", opacity: 0 });
+$("#world").appendChild(bloom);
+tl.fromTo(bloom, { scale: .2, opacity: 0 }, { scale: 13, opacity: 1, duration: .5, ease: "power2.in" }, T.bloom);
+tl.set("#ident", { opacity: 0 }, 0);
+tl.to("#ident", { opacity: 1, duration: .18, ease: "none" }, T.bloom + .38);
+tl.set("#world", { visibility: "hidden" }, T.ident + .1);
+tl.set("#glassTile", { opacity: 0 }, T.ident + .1);
+tl.set(bloom, { opacity: 0 }, T.bloom + .55);   // after the bloom tween ends
+
+/* ---- 2. identity ---- */
+const I = T.ident;
+tl.fromTo("#blob1", { x: -40, y: 0 }, { x: 60, y: 40, duration: 7, ease: "sine.inOut" }, I);
+tl.fromTo("#blob2", { x: 40, y: 0 }, { x: -60, y: -50, duration: 7, ease: "sine.inOut" }, I);
+tl.fromTo("#blob3", { x: 0 }, { x: -50, duration: 7, ease: "sine.inOut" }, I);
+tl.fromTo("#portraitWrap", { scale: .45, opacity: 0 }, { scale: 1, opacity: 1, duration: .7, ease: "back.out(1.5)" }, I);
+tl.fromTo("#portraitFloat", { y: 0 }, { y: -12, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 4 }, I + .7);
+tl.fromTo("#badgeTop", { xPercent: -50, y: -40, opacity: 0, rotation: -8 }, { xPercent: -50, y: 0, opacity: 1, rotation: 0, duration: .55, ease: "back.out(2)" }, I + .25);
+tl.fromTo(hlWords, { y: 90, opacity: 0, clipPath: "inset(0 0 100% 0)" }, { y: 0, opacity: 1, clipPath: "inset(0 0 0% 0)", duration: .45, stagger: .2 }, I + .45);
+tl.fromTo(roleChars, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .08, stagger: .022, ease: "none" }, I + 1.1);
+tl.fromTo("#seeWork", { xPercent: -50, y: 40, scale: .8, opacity: 0 }, { xPercent: -50, y: 0, scale: 1, opacity: 1, duration: .5, ease: "back.out(2)" }, I + 1.9);
+tl.to("#seeWork", { scale: 1.05, duration: .45, yoyo: true, repeat: 1, ease: "sine.inOut" }, I + 2.45);
+
+// camera punch-in on the strong beat + experience card
+tl.to("#stage", { scale: 1.3, y: -60, duration: .55, ease: "expo.out" }, T.punch);
+tl.fromTo("#expCard", { scale: 0, rotation: -24, opacity: 0, transformOrigin: "20% 80%" }, { scale: 1, rotation: 6, opacity: 1, duration: .55, ease: "back.out(2.2)" }, T.punch + .15);
+tl.to("#expCard", { rotation: -2, duration: .5, ease: "sine.inOut" }, T.punch + .7);
+tl.fromTo("#expCard", { y: 0 }, { y: -14, duration: 1.1, yoyo: true, repeat: 3, ease: "sine.inOut" }, T.punch + .7);
+tl.fromTo("#premChip", { x: -420, opacity: 0, rotation: -6 }, { x: 0, opacity: 1, rotation: 0, duration: .6, ease: "back.out(1.4)" }, T.prem);
+tl.to("#premChip", { x: 16, duration: 1.2, yoyo: true, repeat: 1, ease: "sine.inOut" }, T.prem + .6);
+// pull back out to rest
+tl.to("#stage", { scale: 1, y: 0, duration: .9, ease: "power3.inOut" }, T.pull);
+
+// cursor glides to CTA and clicks
+tl.fromTo("#cursor", { x: 980, y: 1900, opacity: 0 }, { x: 600, y: 1490, opacity: 1, duration: .75, ease: "power2.out" }, T.click - .8);
+tl.to("#cursor", { scale: .82, duration: .08, yoyo: true, repeat: 1, transformOrigin: "20% 10%" }, T.click);
+tl.to("#seeWork", { scale: .92, duration: .08, yoyo: true, repeat: 1 }, T.click);
+tl.fromTo("#ripple", { scale: .5, opacity: 1 }, { scale: 9, opacity: 0, duration: .55, ease: "power2.out", immediateRender: false }, T.click);
+
+/* ---- 3. whip to work: arrow leads, layout follows ---- */
+tl.set(["#sweep", "#arrow", "#work"], { opacity: 0 }, 0);
+const arrowLen = drawPrep($("#arrowPath"));
+const headLen = drawPrep($("#arrowHead"));
+tl.to("#arrow", { opacity: 1, duration: .01 }, T.whip - .1);
+tl.to("#arrowPath", { strokeDashoffset: 0, duration: .45, ease: "power2.inOut" }, T.whip - .1);
+tl.to("#arrowHead", { strokeDashoffset: 0, duration: .12, ease: "power1.out" }, T.whip + .33);
+tl.to(["#stage", "#cursor"], { x: "-=1250", rotation: -4, duration: .5, ease: "power3.in" }, T.whip);
+tl.fromTo("#sweep", { opacity: 1, xPercent: 100 }, { xPercent: 0, duration: .5, ease: "power3.inOut" }, T.whip);
+tl.to("#arrow", { x: 1150, duration: .4, ease: "power3.in" }, T.whip + .5);
+tl.set("#ident", { visibility: "hidden" }, T.work);
+tl.set("#work", { opacity: 1 }, T.work - .2);
+tl.set("#sweep", { opacity: 0 }, T.work);
+
+/* ---- 4. work carousel ---- */
+const firstX = 330;   // where a category's first card sits when its heading lands
+const v = (PITCH * 4) / T.perCat;
+cards.forEach((c, k) => {
+  // continuous linear travel; k-th card position at time t
+  const x0 = k * PITCH;
+  const startT = T.work - .25;
+  const xAt = (t) => firstX + x0 - v * (t - (T.work + .4));
+  tl.fromTo(c.el, { x: xAt(startT) - x0 }, { x: xAt(T.scatter + .6) - x0, duration: T.scatter + .6 - startT, ease: "none" }, startT);
+  if (!c.video) tl.fromTo(c.el.querySelector(".inner"), { scale: 1, xPercent: -2 }, { scale: 1.12, xPercent: 3, duration: 5, ease: "sine.inOut" }, T.work + k * .55);
+});
+// cards enter from the right with a little extra push
+tl.fromTo("#strip", { x: 520 }, { x: 0, duration: .9, ease: "power3.out" }, T.work - .25);
+tl.fromTo("#workLabel", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .4 }, T.work);
+
+headings.forEach((h, ci) => {
+  const t0 = catStartTime(ci) - .35;
+  tl.set(h.el, { opacity: 0 }, 0);
+  tl.set(h.el, { opacity: 1 }, t0);
+  tl.fromTo(h.chars, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12, stagger: .035, ease: "power2.out" }, t0);
+  drawPrep(h.under);
+  tl.to(h.under, { strokeDashoffset: 0, duration: .35, ease: "power2.inOut" }, t0 + h.chars.length * .035 + .05);
+  const out = ci < headings.length - 1 ? catStartTime(ci + 1) - .62 : T.scatter;
+  if (ci < headings.length - 1) {
+    tl.to(h.under, { strokeDashoffset: () => h.under.getTotalLength(), duration: .15, ease: "power2.in" }, out);
+    tl.to([...h.chars].reverse(), { opacity: 0, duration: .05, stagger: .014, ease: "none" }, out + .08);
+  } else {
+    tl.to(h.el, { opacity: 0, y: -40, duration: .35, ease: "power2.in" }, out);
+  }
+});
+// "MY WORK 01 / 04" counter
+const label = $("#workLabel");
+const labelText = (ci) => `MY WORK  ${String(ci + 1).padStart(2, "0")} / ${String(CONFIG.categories.length).padStart(2, "0")}`;
+CONFIG.categories.forEach((_, ci) => tl.call(() => { label.textContent = labelText(ci); }, null, ci === 0 ? 0 : catStartTime(ci) - .35));
+label.textContent = labelText(0);
+
+/* ---- 5. scatter-zoom out ---- */
+const S = T.scatter;
+cards.forEach((c, k) => {
+  // push each card away from the frame centre (position known analytically at time S)
+  const cx = firstX + k * PITCH - v * (S + .05 - (T.work + .4)) + CARD_W / 2;
+  tl.to(c.el, {
+    scale: 1.9, opacity: 0, filter: "blur(16px)",
+    xPercent: ((cx - 540) * .6 / CARD_W) * 100,
+    duration: .45, ease: "power2.in",
+  }, S + .05);
+});
+tl.to("#workLabel", { opacity: 0, duration: .2 }, S);
+tl.to("#flash", { opacity: 1, duration: .2, ease: "power1.in" }, S + .25);
+tl.set("#work", { visibility: "hidden" }, S + .47);
+tl.set("#world", { visibility: "visible" }, S + .47);
+tl.to("#flash", { opacity: 0, duration: .45, ease: "power2.out" }, S + .47);
+
+/* ---- 6. CTA ---- */
+const C = T.cta;
+tl.set(["#ctaHead", "#ctaPill", "#ctaSub"], { opacity: 0 }, 0);
+tl.fromTo("#worldGlow", { opacity: .4, scale: .9 }, { opacity: 1, scale: 1.15, duration: 3.5, ease: "sine.inOut", immediateRender: false }, C - .1);
+tl.set("#ctaHead", { opacity: 1 }, C);
+tl.fromTo(ctaWords, { y: 60, opacity: 0, scale: .92 }, { y: 0, opacity: 1, scale: 1, duration: .45, stagger: .12 }, C + .05);
+tl.fromTo("#ctaPill", { scale: .82, opacity: 0, y: 30 }, { scale: 1, opacity: 1, y: 0, duration: .6, ease: "back.out(1.8)" }, C + .55);
+tl.fromTo("#ctaPill svg", { y: -16 }, { y: 6, duration: .45, yoyo: true, repeat: 5, ease: "sine.inOut" }, C + 1.0);
+tl.to("#ctaPill", { scale: 1.05, duration: .55, yoyo: true, repeat: 3, ease: "sine.inOut" }, C + 1.2);
+tl.fromTo("#ctaSub", { opacity: 0, y: 16, letterSpacing: ".5em" }, { opacity: 1, y: 0, letterSpacing: ".32em", duration: .6 }, C + 1.0);
+
+tl.set({}, {}, D);   // pin the end
+window.__tl = tl;
+
+/* ------------------------- render hooks ------------------------- */
+const videos = cards.filter((c) => c.video);
+window.__seek = async (t) => {
+  tl.seek(t, false);
+  await Promise.all(videos.map((c) => new Promise((res) => {
+    const v = c.video, dur = v.duration || 1;
+    const local = Math.max(0, t - T.work) % dur;
+    if (Math.abs(v.currentTime - local) < 1e-3) return res();
+    v.addEventListener("seeked", res, { once: true });
+    v.currentTime = local;
+  })));
+};
+window.__ready = Promise.all([
+  document.fonts.ready,
+  ...[...document.images].map((im) => im.complete ? 1 : new Promise((r) => { im.onload = im.onerror = r; })),
+  ...videos.map((c) => new Promise((r) => { if (c.video.readyState >= 2) r(); else { c.video.onloadeddata = r; c.video.onerror = r; } })),
+]);
+tl.seek(0);
+
+// preview mode: open index.html?play to watch it in a browser
+if (location.search.includes("play")) window.__ready.then(() => tl.play(0));
+</script>
+</body>
+</html>
