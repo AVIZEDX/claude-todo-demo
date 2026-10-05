@@ -1,0 +1,97 @@
+/* CUTLINE motion system: tokens + components. Values mirror frame.md frontmatter. */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("assets/fonts/archivo-wdth-wght.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("assets/fonts/instrument-serif-italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("assets/fonts/jetbrains-mono.woff2") format("woff2");
+  font-weight: 100 800;
+}
+
+:root {
+  --ink: #0b0b0d;
+  --ink-2: #16161a;
+  --paper: #f3f0ea;
+  --mute: #8c8a86;
+  --hairline: rgba(243, 240, 234, 0.14);
+  --glass: rgba(243, 240, 234, 0.07);
+  --glass-edge: rgba(243, 240, 234, 0.22);
+  --signal: #d7ff3a;
+  --signal-ink: #0b0b0d;
+  --rec: #ff3b30;
+
+  --safe-top: 250px;
+  --safe-bottom: 420px;
+  --safe-side: 72px;
+  --line: 6px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--ink); }
+
+/* ---------- layers ---------- */
+.cl-stage { position: absolute; inset: 0; overflow: hidden; background: var(--ink); color: var(--paper); font-family: "Archivo", sans-serif; }
+.cl-scene { position: absolute; inset: 0; overflow: hidden; }
+.cl-glow {
+  position: absolute; left: 50%; top: 45%; width: 1500px; height: 1500px; margin: -750px 0 0 -750px;
+  border-radius: 50%; background: radial-gradient(circle, rgba(215, 255, 58, 0.10) 0%, rgba(215, 255, 58, 0) 60%);
+}
+.cl-grain {
+  position: absolute; inset: 0; opacity: 0.06; mix-blend-mode: overlay; pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ---------- type ---------- */
+.cl-display { font-weight: 800; font-stretch: 125%; text-transform: uppercase; font-size: 168px; line-height: 0.88; letter-spacing: -0.02em; }
+.cl-display-xl { font-weight: 900; font-stretch: 125%; text-transform: uppercase; font-size: 260px; line-height: 0.84; letter-spacing: -0.03em; }
+.cl-headline { font-weight: 800; font-stretch: 112%; text-transform: uppercase; font-size: 104px; line-height: 0.92; letter-spacing: -0.01em; }
+.cl-accent { font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400; text-transform: none; letter-spacing: -0.01em; color: var(--signal); }
+.cl-body { font-weight: 500; font-stretch: 100%; font-size: 40px; line-height: 1.25; }
+.cl-label { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 26px; letter-spacing: 0.14em; text-transform: uppercase; }
+.cl-hud-text { font-family: "JetBrains Mono", monospace; font-weight: 400; font-size: 24px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); }
+
+/* word mask for Rise */
+.cl-mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.02em; }
+.cl-word { display: inline-block; }
+
+/* ---------- components ---------- */
+.cl-line { position: absolute; background: var(--signal); }
+.cl-line.h { height: var(--line); width: 100%; transform-origin: left center; }
+.cl-line.v { width: var(--line); height: 100%; transform-origin: center top; }
+
+.cl-hud { position: absolute; left: var(--safe-side); right: var(--safe-side); top: 190px; display: flex; justify-content: space-between; align-items: center; }
+.cl-rec { display: inline-block; width: 16px; height: 16px; border-radius: 50%; background: var(--rec); margin-right: 12px; vertical-align: 1px; }
+.cl-crop { position: absolute; width: 56px; height: 56px; border-color: var(--hairline); border-style: solid; border-width: 0; }
+.cl-crop.tl { left: 40px; top: 150px; border-left-width: 3px; border-top-width: 3px; }
+.cl-crop.tr { right: 40px; top: 150px; border-right-width: 3px; border-top-width: 3px; }
+.cl-crop.bl { left: 40px; bottom: 360px; border-left-width: 3px; border-bottom-width: 3px; }
+.cl-crop.br { right: 40px; bottom: 360px; border-right-width: 3px; border-bottom-width: 3px; }
+
+.cl-chip {
+  position: absolute; display: inline-flex; align-items: center; gap: 14px; white-space: nowrap;
+  padding: 14px 26px; border-radius: 9999px; background: var(--glass); border: 1.5px solid var(--glass-edge);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 26px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper);
+}
+.cl-chip .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--signal); }
+
+.cl-card { position: absolute; overflow: hidden; border-radius: 28px; border: 1.5px solid var(--hairline); background: var(--ink-2); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.55); }
+.cl-card video, .cl-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.cl-cta {
+  display: inline-flex; align-items: center; gap: 18px; padding: 26px 48px; border-radius: 9999px;
+  background: var(--signal); color: var(--signal-ink);
+  font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 34px; letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+.cl-iris { position: absolute; width: 200px; height: 200px; margin: -100px 0 0 -100px; border-radius: 50%; background: var(--signal); }

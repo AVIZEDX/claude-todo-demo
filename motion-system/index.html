@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>CUTLINE style proof</title>
+    <link rel="stylesheet" href="cutline.css" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="cutline.js"></script>
+    <style>
+      @font-face { font-family: "Archivo"; src: url("assets/fonts/archivo-wdth-wght.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; }
+      @font-face { font-family: "Instrument Serif"; src: url("assets/fonts/instrument-serif-italic.woff2") format("woff2"); font-style: italic; font-weight: 400; }
+      @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/jetbrains-mono.woff2") format("woff2"); font-weight: 100 800; }
+
+      #root { width: 100%; height: 100%; position: relative; }
+
+      /* Scene A: hook type */
+      #a-cam { position: absolute; inset: 0; }
+      .stack { position: absolute; left: 0; right: 0; top: 660px; text-align: center; }
+      #a-label { display: block; height: 34px; margin-bottom: 40px; color: var(--mute); }
+      #a-l1, #a-l3 { display: block; white-space: nowrap; font-size: 164px; }
+      #a-l2 { display: block; font-size: 190px; line-height: 0.9; margin: -10px 0 -6px; }
+      .ul-wrap { position: relative; width: 640px; height: 6px; margin: 34px auto 0; }
+      #a-ul { left: 0; top: 0; }
+      #a-chip1 { left: 640px; top: 520px; }
+      #a-chip2 { left: 96px; top: 1360px; }
+
+      /* Scene B: work cards */
+      #b { clip-path: inset(0 100% 0 0); background: var(--ink); }
+      #b-cam { position: absolute; inset: 0; transform-origin: 780px 960px; }
+      .ph { position: absolute; inset: 0; }
+      .ph .bars { position: absolute; left: -50%; top: 0; width: 200%; height: 100%;
+        background: repeating-linear-gradient(115deg, rgba(243,240,234,0.05) 0 40px, rgba(243,240,234,0) 40px 120px); }
+      .ph .tag { position: absolute; left: 28px; bottom: 28px; color: var(--paper); }
+      .ph .tag small { display: block; color: var(--mute); font-size: 20px; margin-top: 6px; }
+      #c1 { left: 80px; top: 569px; width: 440px; height: 782px; }
+      #c2 { left: 560px; top: 569px; width: 440px; height: 782px; }
+      #c1 .ph { background: radial-gradient(120% 80% at 30% 20%, #2a2a33 0%, #121216 70%); }
+      #c2 .ph { background: radial-gradient(120% 80% at 70% 30%, #33361f 0%, #121216 70%); }
+      #b-trace { position: absolute; left: 557px; top: 566px; width: 446px; height: 788px; overflow: visible; }
+      #b-head { position: absolute; left: 0; right: 0; top: 400px; text-align: center; }
+      #b-wipe { top: 0; }
+
+      /* Scene C: end */
+      #iris { left: 88px; top: 202px; }
+      #c { opacity: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 260px; color: var(--signal-ink); }
+      #c-top { color: var(--signal-ink); opacity: 0.6; margin-bottom: 36px; }
+      #c-handle { font-size: 96px; white-space: nowrap; }
+      #c-accent { color: var(--signal-ink); font-size: 150px; line-height: 1; margin: 8px 0 44px; }
+      #c-cta { background: var(--signal-ink); color: var(--signal); }
+
+      /* HUD */
+      #hud-scene { position: relative; width: 300px; height: 30px; }
+      #hud-scene span { position: absolute; right: 0; top: 0; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="cl-stage" data-composition-id="main" data-start="0" data-duration="6.5" data-width="1080" data-height="1920">
+      <div class="cl-glow" id="glow"></div>
+
+      <!-- Scene A -->
+      <div class="cl-scene" id="a">
+        <div id="a-cam">
+          <div class="stack">
+            <span class="cl-label" id="a-label">Showreel · 2026</span>
+            <div class="cl-display-xl" id="a-l1">Motion</div>
+            <div class="cl-accent" id="a-l2">that</div>
+            <div class="cl-display-xl" id="a-l3">Moves</div>
+            <div class="ul-wrap"><div class="cl-line h" id="a-ul"></div></div>
+          </div>
+          <div class="cl-chip" id="a-chip1"><span class="dot"></span>Short-form</div>
+          <div class="cl-chip" id="a-chip2"><span class="dot"></span>Motion GFX</div>
+        </div>
+      </div>
+
+      <!-- Scene B -->
+      <div class="cl-scene" id="b">
+        <div class="cl-glow"></div>
+        <div id="b-cam">
+          <div class="cl-label" id="b-head">01 / Your category</div>
+          <div class="cl-card" id="c1"><div class="ph"><div class="bars" id="bars1"></div><div class="cl-label tag">Your clip 01<small>placeholder</small></div></div></div>
+          <div class="cl-card" id="c2"><div class="ph"><div class="bars" id="bars2"></div><div class="cl-label tag">Your clip 02<small>placeholder</small></div></div></div>
+          <svg id="b-trace" viewBox="0 0 446 788"><rect id="b-rect" x="3" y="3" width="440" height="782" rx="28" ry="28" fill="none" stroke="#D7FF3A" stroke-width="6" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" /></svg>
+        </div>
+      </div>
+      <div class="cl-line v" id="b-wipe"></div>
+
+      <!-- Scene C -->
+      <div class="cl-iris" id="iris"></div>
+      <div class="cl-scene" id="c">
+        <div class="cl-label" id="c-top">Your name · Editor</div>
+        <div class="cl-display" id="c-handle">@yourhandle</div>
+        <div class="cl-accent" id="c-accent">let’s cut.</div>
+        <div class="cl-cta" id="c-cta">DM “EDIT” →</div>
+      </div>
+
+      <!-- HUD (front layer) -->
+      <div class="cl-crop tl"></div><div class="cl-crop tr"></div><div class="cl-crop bl"></div><div class="cl-crop br"></div>
+      <div class="cl-hud" id="hud">
+        <div class="cl-hud-text"><span class="cl-rec" id="rec"></span><span id="tc">00:00:00:00</span></div>
+        <div class="cl-hud-text" id="hud-scene"><span id="s1">SC01 · HOOK</span><span id="s2">SC02 · WORK</span><span id="s3">SC03 · END</span></div>
+      </div>
+      <div class="cl-grain"></div>
+    </div>
+
+    <script>
+      const C = window.Cutline;
+      const tl = gsap.timeline({ paused: true });
+      const $ = (s) => document.querySelector(s);
+
+      // HUD
+      C.timecode(tl, $("#tc"), 0, 6.5);
+      tl.fromTo("#rec", { opacity: 1 }, { opacity: 0.25, duration: 0.5, ease: "steps(1)", repeat: 12, yoyo: true }, 0);
+      tl.fromTo(".cl-crop", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.42, ease: C.E.snap, stagger: 0.05 }, 0);
+      C.drift(tl, "#glow", 0, 6.5, { scale: 1.25 });
+
+      tl.set(["#s2", "#s3"], { opacity: 0 }, 0);
+      tl.set("#s1", { opacity: 0 }, 3.0); tl.set("#s2", { opacity: 1 }, 3.0);
+      tl.set("#s2", { opacity: 0 }, 5.0); tl.set("#s3", { opacity: 1 }, 5.0);
+
+      // Scene A: hook (beats at 120 BPM = 0.5 s)
+      const w1 = C.splitWords($("#a-l1"));
+      const w3 = C.splitWords($("#a-l3"));
+      C.rise(tl, w1, 0.05);
+      C.stretch(tl, "#a-l1", 0.05, { duration: 0.7 });
+      C.typeOn(tl, $("#a-label"), 0.3);
+      C.swap(tl, "#a-l2", 0.9);
+      C.rise(tl, w3, 1.4);
+      C.underline(tl, "#a-ul", 1.8);
+      C.chip(tl, "#a-chip1", 2.0, { tilt: 10, rest: 3 });
+      C.punch(tl, "#a-cam", 2.0, { scale: 1.34 });   // hero beat: type overflows the frame
+      C.chip(tl, "#a-chip2", 2.5);
+      C.drift(tl, "#a-cam .stack", 0, 3.0, { scale: 1.03 });
+
+      // Cutline wipe into Scene B on the bar line
+      C.wipe(tl, "#b-wipe", "#b", 3.0);
+      tl.to("#a", { opacity: 0, duration: 0.01 }, 3.6);
+      C.typeOn(tl, $("#b-head"), 3.2);
+      tl.fromTo("#c1", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.42, ease: C.E.snap }, 3.1);
+      tl.fromTo("#c2", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.42, ease: C.E.snap }, 3.2);
+      tl.fromTo(["#bars1", "#bars2"], { x: 0 }, { x: 240, duration: 3.5, ease: "none" }, 3.0);
+
+      // Push-through: cutline traces the card, camera flies into it
+      tl.to("#b-rect", { strokeDashoffset: 0, duration: 0.35, ease: C.E.draw }, 4.0);
+      tl.to("#b-cam", { scale: 2.5, x: -240, duration: 0.8, ease: C.E.push }, 4.3);
+      tl.to("#b-head", { opacity: 0, duration: 0.2 }, 4.3);
+
+      // Iris from the REC dot into the end card
+      C.iris(tl, "#iris", 5.0, 88, 202, { scale: 26, duration: 0.5 });
+      tl.to("#c", { opacity: 1, duration: 0.01 }, 5.45);
+      C.typeOn(tl, $("#c-top"), 5.45);
+      const wh = C.splitWords($("#c-handle"));
+      C.rise(tl, wh, 5.5);
+      C.stretch(tl, "#c-handle", 5.5, { duration: 0.6 });
+      C.swap(tl, "#c-accent", 5.8);
+      C.chip(tl, "#c-cta", 6.0, { tilt: -6, rest: 0 });
+      tl.to(".cl-hud-text", { color: "#0B0B0D", duration: 0.01 }, 5.45);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
